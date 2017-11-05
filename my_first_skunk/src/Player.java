@@ -5,19 +5,19 @@ public class Player
 	public int turnScore;
 	public int gameScore;
 	public int numberChips;
+	public Turn latestTurn;
+	private UI ui;
+	private Kitty kitty;
 
-	public Player()
+	public Player(UI ui, Kitty kitty, int startingChipsPerPlayer)
 	{
 		this.rollScore = 0;
 		this.turnScore = 0;
 		this.gameScore = 0;
 		this.numberChips = 50; // for now
-	}
-
-	public Player(int startingChipsPerPlayer)
-	{
-		this();
+		this.ui = ui;
 		this.numberChips = startingChipsPerPlayer;
+		this.kitty = kitty;
 	}
 
 	public static void main(String[] args)
@@ -74,6 +74,27 @@ public class Player
 	public int getGameScore()
 	{
 		return this.gameScore;
+	}
+
+	public void takeTurn()
+	{
+		latestTurn = new Turn(this, kitty, ui);
+		latestTurn.playOneTurn();
+	}
+
+	public void reportTurnResult()
+	{
+		ui.println("End of turn for " + this.getName());
+		ui.println("Score for this turn is " + getTurnScore() + ", added to...");
+		ui.println("Previous round score of " + getGameScore());
+		setGameScore(getGameScore() + getTurnScore());
+		ui.println("Giving new round score of " + getGameScore());
+		ui.println("");
+
+	}
+
+	void reportTurnResult(SkunkDomain skunkDomain)
+	{
 	}
 
 }

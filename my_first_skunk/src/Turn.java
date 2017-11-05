@@ -13,15 +13,16 @@ public class Turn
 		this.turnScore = 0;
 		skunkDice = new Dice();
 		this.kitty = kitty;
+		this.ui = ui;
 	}
 
 	public void playOneTurn()
 	{
-		String wantsToRollStr = ui.promptReadAndReturn("Roll? [true or false]");
-		boolean wantsToRoll = Boolean.parseBoolean(wantsToRollStr);
-		setTurnScore(0);
+		// String wantsToRollStr = wantsToRollAgain();
+		// boolean wantsToRoll = Boolean.parseBoolean(wantsToRollStr);
+		// setTurnScore(0);
 
-		while (wantsToRoll)
+		while (wantsToRollAgain())
 		{
 			activePlayer.setRollScore(0);
 			skunkDice.roll();
@@ -32,7 +33,7 @@ public class Turn
 				activePlayer.setNumberChips(activePlayer.getNumberChips() - 4);
 				activePlayer.setTurnScore(0);
 				activePlayer.setGameScore(0);
-				wantsToRoll = false;
+				// wantsToRoll = false;
 				break;
 			}
 			else if (skunkDice.isSkunkDeuce())
@@ -41,7 +42,7 @@ public class Turn
 				kitty.addChips(2);
 				activePlayer.setNumberChips(activePlayer.getNumberChips() - 2);
 				activePlayer.setTurnScore(0);
-				wantsToRoll = false;
+				// wantsToRoll = false;
 				break;
 			}
 			else if (skunkDice.isSkunkOnly())
@@ -50,7 +51,7 @@ public class Turn
 				kitty.addChips(1);
 				activePlayer.setNumberChips(activePlayer.getNumberChips() - 1);
 				activePlayer.setTurnScore(0);
-				wantsToRoll = false;
+				// wantsToRoll = false;
 				break;
 
 			}
@@ -59,11 +60,18 @@ public class Turn
 			activePlayer.setTurnScore(activePlayer.getTurnScore() + skunkDice.getLastTotal());
 			ui.println("Roll of " + skunkDice.toString() + ", gives new turn score of " + activePlayer.getTurnScore());
 
-			wantsToRollStr = ui.promptReadAndReturn("Roll again? [true or false]");
-			wantsToRoll = Boolean.parseBoolean(wantsToRollStr);
+			// wantsToRollStr = ui.promptReadAndReturn("Roll again? [true or
+			// false]");
+			// wantsToRoll = Boolean.parseBoolean(wantsToRollStr);
 
 		}
 
+	}
+
+	private boolean wantsToRollAgain()
+	{
+		String wantsToRollStr = ui.promptReadAndReturn("Roll? [true or false]");
+		return wantsToRollStr.isEmpty() || Character.toUpperCase(wantsToRollStr.charAt(0)) == 'Y';
 	}
 
 	private void setTurnScore(int i)
