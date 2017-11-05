@@ -46,6 +46,45 @@ public class SkunkDomain
 		activePlayer = getFirstActivePlayer();
 
 		ui.println("Starting game...\n");
+
+		playUntil100GameScore();
+
+		playLastSeries();
+
+		int winner = announceWinner();
+
+		players.get(winner).setNumberChips(players.get(winner).getNumberChips() + kitty);
+		ui.println("\nRound winner earns " + kitty + ", finishing with " + players.get(winner).getNumberChips());
+
+		ui.println("\nFinal scoreboard for this round:");
+		displayScoreboard(ui, kitty, playerNames, numberOfPlayers);
+
+		return true;
+	}
+
+	private int announceWinner()
+	{
+		int winner = 0;
+		int winnerScore = 0;
+
+		for (int player = 0; player < numberOfPlayers; player++)
+		{
+			Player nextPlayer = players.get(player);
+			ui.println("Final round score for " + playerNames[player] + " is " + nextPlayer.getGameScore() + ".");
+			if (nextPlayer.getGameScore() > winnerScore)
+			{
+				winner = player;
+				winnerScore = nextPlayer.getGameScore();
+			}
+		}
+
+		ui.println("Round winner is " + playerNames[winner] + " with score of " + players.get(winner).getGameScore());
+
+		return winner;
+	}
+
+	private void playUntil100GameScore()
+	{
 		boolean gameNotOver = true;
 
 		while (gameNotOver)
@@ -110,6 +149,10 @@ public class SkunkDomain
 			activePlayer = advanceToNextActivePlayer();
 
 		}
+	}
+
+	private void playLastSeries()
+	{
 		// last round: everyone but last activePlayer gets another shot
 
 		ui.println("Last turn for all...");
@@ -173,29 +216,6 @@ public class SkunkDomain
 					+ activePlayer.getRollScore());
 
 		}
-
-		int winner = 0;
-		int winnerScore = 0;
-
-		for (int player = 0; player < numberOfPlayers; player++)
-		{
-			Player nextPlayer = players.get(player);
-			ui.println("Final round score for " + playerNames[player] + " is " + nextPlayer.getGameScore() + ".");
-			if (nextPlayer.getGameScore() > winnerScore)
-			{
-				winner = player;
-				winnerScore = nextPlayer.getGameScore();
-			}
-		}
-
-		ui.println("Round winner is " + playerNames[winner] + " with score of " + players.get(winner).getGameScore());
-		players.get(winner).setNumberChips(players.get(winner).getNumberChips() + kitty);
-		ui.println("\nRound winner earns " + kitty + ", finishing with " + players.get(winner).getNumberChips());
-
-		ui.println("\nFinal scoreboard for this round:");
-		displayScoreboard(ui, kitty, playerNames, numberOfPlayers);
-
-		return true;
 	}
 
 	private void reportTurnResult()
