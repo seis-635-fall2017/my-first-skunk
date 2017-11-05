@@ -3,15 +3,13 @@ public class Player
 {
 	public int rollScore;
 	public int turnScore;
-	public int roundScore;
-	public int gameScore; // for now, same as roundScore
+	public int gameScore;
 	public int numberChips;
 
 	public Player()
 	{
 		this.rollScore = 0;
 		this.turnScore = 0;
-		this.roundScore = 0;
 		this.gameScore = 0;
 		this.numberChips = 50; // for now
 	}
@@ -68,16 +66,14 @@ public class Player
 		return null;
 	}
 
-	public void setRoundScore(int i)
+	public void setGameScore(int i)
 	{
-		this.roundScore = i;
+		this.gameScore = i;
 	}
 
-	public int getRoundScore()
+	public int getGameScore()
 	{
-		return this.roundScore;
+		return this.gameScore;
 	}
-
-
 
 }

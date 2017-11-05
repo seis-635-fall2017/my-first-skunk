@@ -65,7 +65,7 @@ public class SkunkDomain
 					kitty += 4;
 					activePlayer.setNumberChips(activePlayer.getNumberChips() - 4);
 					activePlayer.setTurnScore(0);
-					activePlayer.setRoundScore(0);
+					activePlayer.setGameScore(0);
 					wantsToRoll = false;
 					break;
 				}
@@ -102,7 +102,7 @@ public class SkunkDomain
 			reportTurnResult();
 
 			ui.println("");
-			if (activePlayer.getRoundScore() >= 100)
+			if (activePlayer.getGameScore() >= 100)
 				gameNotOver = false;
 
 			displayScoreboard(ui, kitty, playerNames, numberOfPlayers);
@@ -151,7 +151,7 @@ public class SkunkDomain
 					kitty += 1;
 					activePlayer.setNumberChips(activePlayer.getNumberChips() - 1);
 					activePlayer.setTurnScore(0);
-					activePlayer.setRoundScore(0);
+					activePlayer.setGameScore(0);
 					wantsToRoll = false;
 				}
 				else
@@ -180,15 +180,15 @@ public class SkunkDomain
 		for (int player = 0; player < numberOfPlayers; player++)
 		{
 			Player nextPlayer = players.get(player);
-			ui.println("Final round score for " + playerNames[player] + " is " + nextPlayer.getRoundScore() + ".");
-			if (nextPlayer.getRoundScore() > winnerScore)
+			ui.println("Final round score for " + playerNames[player] + " is " + nextPlayer.getGameScore() + ".");
+			if (nextPlayer.getGameScore() > winnerScore)
 			{
 				winner = player;
-				winnerScore = nextPlayer.getRoundScore();
+				winnerScore = nextPlayer.getGameScore();
 			}
 		}
 
-		ui.println("Round winner is " + playerNames[winner] + " with score of " + players.get(winner).getRoundScore());
+		ui.println("Round winner is " + playerNames[winner] + " with score of " + players.get(winner).getGameScore());
 		players.get(winner).setNumberChips(players.get(winner).getNumberChips() + kitty);
 		ui.println("\nRound winner earns " + kitty + ", finishing with " + players.get(winner).getNumberChips());
 
@@ -202,9 +202,9 @@ public class SkunkDomain
 	{
 		ui.println("End of turn for " + playerNames[activePlayerIndex]);
 		ui.println("Score for this turn is " + activePlayer.getTurnScore() + ", added to...");
-		ui.println("Previous round score of " + activePlayer.getRoundScore());
-		activePlayer.setRoundScore(activePlayer.getRoundScore() + activePlayer.getTurnScore());
-		ui.println("Giving new round score of " + activePlayer.getRoundScore());
+		ui.println("Previous round score of " + activePlayer.getGameScore());
+		activePlayer.setGameScore(activePlayer.getGameScore() + activePlayer.getTurnScore());
+		ui.println("Giving new round score of " + activePlayer.getGameScore());
 	}
 
 	private Player getFirstActivePlayer()
@@ -228,7 +228,7 @@ public class SkunkDomain
 
 		for (int i = 0; i < numberOfPlayers; i++)
 		{
-			ui.println(playerNames[i] + " -- " + players.get(i).turnScore + " -- " + players.get(i).roundScore + " -- "
+			ui.println(playerNames[i] + " -- " + players.get(i).turnScore + " -- " + players.get(i).gameScore + " -- "
 					+ players.get(i).getNumberChips());
 		}
 		ui.println("-----------------------");
