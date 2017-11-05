@@ -110,19 +110,7 @@ public class SkunkDomain
 			if (activePlayer.getRoundScore() >= 100)
 				gameNotOver = false;
 
-			ui.println("Scoreboard: ");
-			ui.println("Kitty has " + kitty);
-			ui.println("player name -- turn score -- round score -- chips");
-			ui.println("-----------------------");
-
-			for (int i = 0; i < numberOfPlayers; i++)
-			{
-				ui.println(playerNames[i] + " -- " + players.get(i).turnScore + " -- " + players.get(i).roundScore
-						+ " -- " + players.get(i).getNumberChips());
-			}
-			ui.println("-----------------------");
-
-			ui.println("Turn passes to right...");
+			displayScoreboard(ui,kitty,playerNames, numberOfPlayers);
 
 			activePlayerIndex = (activePlayerIndex + 1) % numberOfPlayers;
 			activePlayer = players.get(activePlayerIndex);
@@ -234,6 +222,23 @@ public class SkunkDomain
 
 		ui.println("-----------------------");
 		return true;
+	}
+
+	private void displayScoreboard(UI ui, int kitty, String[] playerNames, int numberOfPlayers) 
+	{
+		ui.println("Scoreboard: ");
+		ui.println("Kitty has " + kitty);
+		ui.println("player name -- turn score -- round score -- chips");
+		ui.println("-----------------------");
+
+		for (int i = 0; i < numberOfPlayers; i++)
+		{
+			ui.println(playerNames[i] + " -- " + players.get(i).turnScore + " -- " + players.get(i).roundScore
+					+ " -- " + players.get(i).getNumberChips());
+		}
+		ui.println("-----------------------");
+
+		ui.println("Turn passes to right...");
 	}
 
 	public static void main(String[] args)
