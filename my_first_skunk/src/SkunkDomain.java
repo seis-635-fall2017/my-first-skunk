@@ -59,7 +59,7 @@ public class SkunkDomain
 			{
 				activePlayer.setRollScore(0);
 				skunkDice.roll();
-				if (skunkDice.getLastTotal() == 2)
+				if (skunkDice.isTwoSkunks())
 				{
 					ui.println("Two Skunks! You lose the turn, the round score, plus pay 4 chips to the kitty");
 					kitty += 4;
@@ -69,7 +69,7 @@ public class SkunkDomain
 					wantsToRoll = false;
 					break;
 				}
-				else if (skunkDice.getLastTotal() == 3)
+				else if (skunkDice.isSkunkDeuce())
 				{
 					ui.println("Skunks and Deuce! You lose the turn, the turn score, plus pay 2 chips to the kitty");
 					kitty += 2;
@@ -78,7 +78,7 @@ public class SkunkDomain
 					wantsToRoll = false;
 					break;
 				}
-				else if (skunkDice.die1.getLastRoll() == 1 || skunkDice.die2.getLastRoll() == 1)
+				else if (skunkDice.isSkunkOnly())
 				{
 					ui.println("One Skunk! You lose the turn, the turn score, plus pay 1 chip to the kitty");
 					kitty += 1;
@@ -99,11 +99,7 @@ public class SkunkDomain
 
 			}
 
-			ui.println("End of turn for " + playerNames[activePlayerIndex]);
-			ui.println("Score for this turn is " + activePlayer.getTurnScore() + ", added to...");
-			ui.println("Previous round score of " + activePlayer.getRoundScore());
-			activePlayer.setRoundScore(activePlayer.getRoundScore() + activePlayer.getTurnScore());
-			ui.println("Giving new round score of " + activePlayer.getRoundScore());
+			reportTurnResult();
 
 			ui.println("");
 			if (activePlayer.getRoundScore() >= 100)
@@ -200,6 +196,15 @@ public class SkunkDomain
 		displayScoreboard(ui, kitty, playerNames, numberOfPlayers);
 
 		return true;
+	}
+
+	private void reportTurnResult()
+	{
+		ui.println("End of turn for " + playerNames[activePlayerIndex]);
+		ui.println("Score for this turn is " + activePlayer.getTurnScore() + ", added to...");
+		ui.println("Previous round score of " + activePlayer.getRoundScore());
+		activePlayer.setRoundScore(activePlayer.getRoundScore() + activePlayer.getTurnScore());
+		ui.println("Giving new round score of " + activePlayer.getRoundScore());
 	}
 
 	private Player getFirstActivePlayer()
