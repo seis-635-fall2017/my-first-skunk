@@ -42,8 +42,8 @@ public class SkunkDomain
 			playerNames[playerNumber] = StdIn.readLine();
 			this.players.add(new Player(50));
 		}
-		activePlayerIndex = 0;
-		activePlayer = players.get(activePlayerIndex);
+
+		activePlayer = getFirstActivePlayer();
 
 		ui.println("Starting game...\n");
 		boolean gameNotOver = true;
@@ -111,8 +111,7 @@ public class SkunkDomain
 
 			displayScoreboard(ui, kitty, playerNames, numberOfPlayers);
 
-			activePlayerIndex = (activePlayerIndex + 1) % numberOfPlayers;
-			activePlayer = players.get(activePlayerIndex);
+			activePlayer = advanceToNextActivePlayer();
 
 		}
 		// last round: everyone but last activePlayer gets another shot
@@ -201,6 +200,18 @@ public class SkunkDomain
 		displayScoreboard(ui, kitty, playerNames, numberOfPlayers);
 
 		return true;
+	}
+
+	private Player getFirstActivePlayer()
+	{
+		activePlayerIndex = 0;
+		return players.get(activePlayerIndex);
+	}
+
+	private Player advanceToNextActivePlayer()
+	{
+		activePlayerIndex = (activePlayerIndex + 1) % numberOfPlayers;
+		return players.get(activePlayerIndex);
 	}
 
 	private void displayScoreboard(UI ui, int kitty, String[] playerNames, int numberOfPlayers)
