@@ -33,15 +33,7 @@ public class SkunkDomain
 	{
 		ui.println("Welcome to Skunk 0.47\n");
 
-		String numberPlayersString = skunkUI.promptReadAndReturn("How many players?");
-		this.numberOfPlayers = Integer.parseInt(numberPlayersString);
-
-		for (int playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++)
-		{
-			ui.print("Enter name of player " + (playerNumber + 1) + ": ");
-			playerNames[playerNumber] = StdIn.readLine();
-			this.players.add(new Player(50));
-		}
+		initializePlayers();
 
 		activePlayer = getFirstActivePlayer();
 
@@ -53,13 +45,31 @@ public class SkunkDomain
 
 		int winner = announceWinner();
 
-		players.get(winner).setNumberChips(players.get(winner).getNumberChips() + kitty);
-		ui.println("\nRound winner earns " + kitty + ", finishing with " + players.get(winner).getNumberChips());
+		updateWinnerScore(winner);
 
 		ui.println("\nFinal scoreboard for this round:");
 		displayScoreboard(ui, kitty, playerNames, numberOfPlayers);
 
 		return true;
+	}
+
+	private void initializePlayers()
+	{
+		String numberPlayersString = skunkUI.promptReadAndReturn("How many players?");
+		this.numberOfPlayers = Integer.parseInt(numberPlayersString);
+
+		for (int playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++)
+		{
+			ui.print("Enter name of player " + (playerNumber + 1) + ": ");
+			playerNames[playerNumber] = StdIn.readLine();
+			this.players.add(new Player(50));
+		}
+	}
+
+	private void updateWinnerScore(int winner)
+	{
+		players.get(winner).setNumberChips(players.get(winner).getNumberChips() + kitty);
+		ui.println("\nRound winner earns " + kitty + ", finishing with " + players.get(winner).getNumberChips());
 	}
 
 	private int announceWinner()
